@@ -62,55 +62,82 @@ The control logic determines the motor direction based on user input and window 
 
 ## DC Motor Mathematical Model
 
-The power window is driven using a DC motor model consisting of electrical and mechanical subsystems.
+### Mechanical Dynamics (Newton's Second Law)
 
-### Electrical Equation
+The motor shaft dynamics are modeled as:
 
-\[
-V = L \frac{di}{dt} + Ri + K_b \omega
-\]
+```text
+J(d²θ/dt²) = T - b(dθ/dt)
+```
+
+Since motor torque is proportional to armature current:
+
+```text
+T = Kt·i
+```
+
+Therefore,
+
+```text
+d²θ/dt² = (1/J) [Kt·i - b(dθ/dt)]
+```
 
 Where:
 
-- V = Applied Voltage
-- L = Armature Inductance
-- R = Armature Resistance
-- i = Armature Current
-- Kb = Back EMF Constant
-- ω = Angular Velocity
+- J = Rotor Inertia (kg·m²)
+- b = Viscous Friction Coefficient (N·m·s/rad)
+- θ = Angular Position (rad)
+- Kt = Motor Torque Constant (N·m/A)
+- i = Armature Current (A)
 
 ---
 
-### Mechanical Equation
+### Electrical Dynamics (Kirchhoff's Voltage Law)
 
-\[
-J \frac{d\omega}{dt} + b\omega = K_t i
-\]
+The armature circuit is modeled as:
+
+```text
+L(di/dt) = -Ri + V - e
+```
+
+Since back EMF is proportional to angular velocity:
+
+```text
+e = Kb(dθ/dt)
+```
+
+Therefore,
+
+```text
+di/dt = (1/L) [-Ri + V - Kb(dθ/dt)]
+```
 
 Where:
 
-- J = Rotor Inertia
-- b = Viscous Friction Coefficient
-- Kt = Torque Constant
-- i = Armature Current
+- V = Applied Voltage (V)
+- R = Armature Resistance (Ω)
+- L = Armature Inductance (H)
+- Kb = Back EMF Constant (V·s/rad)
+- i = Armature Current (A)
 
 ---
 
 ### Position Calculation
 
-Motor position is obtained by integrating angular velocity.
+Motor position is obtained by integrating angular velocity:
 
-\[
-\theta = \int \omega dt
-\]
+```text
+ω = dθ/dt
+
+θ = ∫ω dt
+```
 
 Where:
 
-- θ = Angular Position
-- ω = Angular Velocity
+- ω = Angular Velocity (rad/s)
+- θ = Angular Position (rad)
 
 ---
-
 ## Simulink Model Components
 
 The Simulink model contains the following subsystems:
