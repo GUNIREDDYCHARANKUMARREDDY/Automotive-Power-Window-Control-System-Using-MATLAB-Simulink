@@ -222,7 +222,7 @@ Similarly:
 - Real-Time Hardware Testing
 
 ---
-df
+
 ## Project Outcomes
 
 - Successfully modeled an automotive power window system using MATLAB/Simulink.
